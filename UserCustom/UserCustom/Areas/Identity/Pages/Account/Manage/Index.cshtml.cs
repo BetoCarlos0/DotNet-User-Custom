@@ -33,8 +33,27 @@ namespace UserCustom.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
+            //adicionando campos para input ao BD
+            [Required]
+            [DataType(DataType.Text)]
+            [StringLength(20, ErrorMessage = "O {0} deve ter pelo menos {2}", MinimumLength = 3)]
+            [Display(Name = "Nome de Usuário")]
+            public string Name { get; set; }
+
+            [Required]
+            [DataType(DataType.Text)]
+            [RegularExpression(@"^[A-Z]+[a-zA-Z\s]*$")]
+            [StringLength(20, ErrorMessage = "O {0} deve ter pelo menos {2}", MinimumLength = 3)]
+            [Display(Name = "Nome")]
+            public string FirstName { get; set; }
+
+            [DataType(DataType.Text)]
+            [StringLength(20, ErrorMessage = "O {0} deve ter pelo menos {2}", MinimumLength = 3)]
+            [Display(Name = "Sobrenome")]
+            public string LastName { get; set; }
+
             [Phone]
-            [Display(Name = "Phone number")]
+            [Display(Name = "Telefone")]
             public string PhoneNumber { get; set; }
         }
 
@@ -47,6 +66,10 @@ namespace UserCustom.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
+                //captura os valores dos inputs
+                Name = user.Name,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
                 PhoneNumber = phoneNumber
             };
         }
@@ -56,7 +79,7 @@ namespace UserCustom.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Não é possível carregar o usuário com ID '{_userManager.GetUserId(User)}'.");
             }
 
             await LoadAsync(user);
@@ -68,7 +91,7 @@ namespace UserCustom.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Não é possível carregar o usuário com ID '{_userManager.GetUserId(User)}'.");
             }
 
             if (!ModelState.IsValid)
@@ -83,13 +106,29 @@ namespace UserCustom.Areas.Identity.Pages.Account.Manage
                 var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
                 if (!setPhoneResult.Succeeded)
                 {
-                    StatusMessage = "Unexpected error when trying to set phone number.";
+                    StatusMessage = "Erro inesperado ao tentar definir o número de telefone.";
                     return RedirectToPage();
                 }
             }
+             //verificando se os campos foram atualizados, caso ocorra, será feito update
+            if (Input.Name != user.Name)
+            {
+                user.Name = Input.Name;
+            }
+            if(Input.FirstName != user.FirstName)
+            {
+                user.FirstName = Input.FirstName;
+            }
+            if(Input.LastName != user.LastName)
+            {
+                user.LastName = Input.LastName;
+            }
+
+            //update dos valores alterados ou não
+            await _userManager.UpdateAsync(user);
 
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your profile has been updated";
+            StatusMessage = "Sua conta foi editada com sucesso";
             return RedirectToPage();
         }
     }

@@ -46,19 +46,37 @@ namespace UserCustom.Areas.Identity.Pages.Account
 
         public class InputModel
         {
+            //adicionando campos para input ao BD
+            [Required]
+            [DataType(DataType.Text)]
+            [StringLength(20, ErrorMessage = "O {0} deve ter pelo menos {2}", MinimumLength = 3)]
+            [Display(Name = "Nome de Usuário")]
+            public string Name { get; set; }
+
+            [Required]
+            [DataType(DataType.Text)]
+            [StringLength(20, ErrorMessage = "O {0} deve ter pelo menos {2}", MinimumLength = 3)]
+            [Display(Name = "Nome")]
+            public string FirstName { get; set; }
+
+            [DataType(DataType.Text)]
+            [StringLength(20, ErrorMessage = "O {0} deve ter pelo menos {2}", MinimumLength = 3)]
+            [Display(Name = "Sobrenome")]
+            public string LastName { get; set; }
+
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "A {0} deve ter pelos menos {2}.", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "Password")]
+            [Display(Name = "Senha")]
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
+            [Display(Name = "Confirmar Senha")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
         }
@@ -75,7 +93,11 @@ namespace UserCustom.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new UserCustomUser { UserName = Input.Email, Email = Input.Email };
+                //adicionando os campos novos ao objeto isntanciado 'user' para ser inseridos ao BD com CreateAsync
+                //no final de user foi adicionado a verificação de email dos usuários como true, então aparecerá um 'v' de confirmação
+                var user = new UserCustomUser { Name = Input.Name, FirstName = Input.FirstName, LastName = Input.LastName,
+                                                UserName = Input.Email, Email = Input.Email, EmailConfirmed = true };
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

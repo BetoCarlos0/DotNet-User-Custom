@@ -20,7 +20,9 @@ namespace UserCustom.Areas.Identity
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("UserCustomContextConnection")));
 
-                services.AddDefaultIdentity<UserCustomUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                //RequireConfirmedAccount alterado para false, então não passará pela tela de confirmação de email,
+                //assim sendo redirecionado para home - index
+                services.AddDefaultIdentity<UserCustomUser>(options => options.SignIn.RequireConfirmedAccount = false)
                     .AddEntityFrameworkStores<UserCustomContext>();
             });
         }
