@@ -19,3 +19,5 @@
 * Account/Manage/StatusMessage
 * Account/Nabage/Index +
 * Account/Register +
+
+#### Classe de contexto e classe de usuário são criados clicando no sinal de '+'
