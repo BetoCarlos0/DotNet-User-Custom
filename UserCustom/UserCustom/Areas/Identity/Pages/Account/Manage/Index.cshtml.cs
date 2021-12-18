@@ -42,12 +42,13 @@ namespace UserCustom.Areas.Identity.Pages.Account.Manage
 
             [Required]
             [DataType(DataType.Text)]
-            [RegularExpression(@"^[A-Z]+[a-zA-Z\s]*$")]
+            [RegularExpression(@"^[a-zA-Z\s]*$")]
             [StringLength(20, ErrorMessage = "O {0} deve ter pelo menos {2}", MinimumLength = 3)]
             [Display(Name = "Nome")]
             public string FirstName { get; set; }
 
             [DataType(DataType.Text)]
+            [RegularExpression(@"^[a-zA-Z\s]*$")]
             [StringLength(20, ErrorMessage = "O {0} deve ter pelo menos {2}", MinimumLength = 3)]
             [Display(Name = "Sobrenome")]
             public string LastName { get; set; }
