@@ -1,6 +1,9 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
-
+*, p{
+    margin: 0;
+    padding: 0;
+}
 a.navbar-brand {
   white-space: normal;
   text-align: center;
@@ -9,7 +12,8 @@ a.navbar-brand {
 
 /* Provide sufficient contrast against white background */
 a {
-  color: #0366d6;
+    text-decoration: none;
+    color: #22344e;
 }
 
 .btn-primary {
@@ -24,10 +28,58 @@ a {
   border-color: #1861ac;
 }
 
+/* Sticky Authentication styles
+-------------------------------------------------- */
+body .container {
+    width: 1200px;
+}
+
+.auth .row{
+    height: 100vh;
+}
+.form-login {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.auth img {
+    width: 100%;
+    margin-left:20%;
+}
+
+.login {
+    background-color: white;
+    border: 1px solid #45bbeb;
+    padding: 40px 20px;
+    border-radius: 8px;
+    box-shadow: 0px 1px 28px #a3e2fb;
+}
+
+.login .meforgot {
+    display: inline-flex;
+    width: 100%;
+    justify-content: space-between;
+}
+.login .newaccount {
+    text-align: center;
+    margin-top: 15px;
+}
+.login .btn {
+    width: 100%;
+    background-color: #22344e;
+    color: white;
+    margin-top: 10px;
+    height: 50px;
+}
+
+.form-floating input {
+    color: #45bbeb;
+    border: 1px solid #45bbeb;
+}
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 @media (min-width: 768px) {
   html {
@@ -58,10 +110,6 @@ html {
   min-height: 100%;
 }
 
-body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
-}
 .footer {
   position: absolute;
   bottom: 0;
